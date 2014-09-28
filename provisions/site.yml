@@ -1,5 +1,5 @@
 ---
-- name: Install Wordpress, MariaDB, Nginx, HHVM, and Varnish
+- name: Install Wordpress stack with Nginx, HHVM, MariaDB and Varnish
   hosts: all
   user: vagrant
   # remote_user: user
