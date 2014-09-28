@@ -9,9 +9,6 @@
   - name: Creates www directory
     file: path=/var/www state=directory
 
-  - name: Creates wordpress directory
-    file: path=/var/www/wordpress state=directory
-
   - name: Copy nginx configuration for wordpress
     template: src=default.conf dest=/etc/nginx/conf.d/default.conf
     notify: restart nginx

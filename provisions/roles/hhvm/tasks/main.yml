@@ -20,6 +20,3 @@
 
   - name: restart nginx
     service: name=nginx state=restarted
-
-  - name: Copy test php file over
-    template: src=index.php dest=/var/www/wordpress/index.php

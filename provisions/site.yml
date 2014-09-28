@@ -11,4 +11,4 @@
     - hhvm
     - mariadb
     # - varnish
-    # - wordpress
+    - wordpress

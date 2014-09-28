@@ -18,11 +18,3 @@
   - name: Install python Mysql package #required for mysql_db tasks
     apt: name=python-mysqldb state=present
     tags: mariadb
-
-  - name: Create a new database
-    mysql_db: name={{ wp_db_name }} state=present collation=utf8_general_ci
-    tags: mariadb
-
-  - name: Create a database user
-    mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host=localhost state=present
-    tags: mariadb
