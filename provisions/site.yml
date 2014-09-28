@@ -8,7 +8,7 @@
   roles:
     - common
     - nginx
-    # - hhvm
+    - hhvm
     # - mariadb
     # - varnish
     # - wordpress

@@ -12,7 +12,7 @@
   #
   - name: General | Install required packages.
     tags: debs
-    action: apt pkg={{ item }} state=installed
+    action: apt pkg={{ item }} state=present
     with_items:
       - python-software-properties
       - build-essential
