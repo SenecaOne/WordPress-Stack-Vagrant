@@ -1,0 +1,27 @@
+---
+  - name: Update APT package cache
+    action: apt update_cache=yes
+    tags: common
+
+  - name: Run apt-get upgrade
+    action: apt upgrade=dist
+    tags: common
+
+  ##
+  # Apt package installation of required software.
+  #
+  - name: General | Install required packages.
+    tags: debs
+    action: apt pkg={{ item }} state=installed
+    with_items:
+      - python-software-properties
+      - build-essential
+      - software-properties-common
+      - git
+      - git-core
+      - screen
+      - vim
+      - htop
+      - wget
+      - curl
+      - unzip
