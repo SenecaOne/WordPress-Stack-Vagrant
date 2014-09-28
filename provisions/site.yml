@@ -9,6 +9,6 @@
     - common
     - nginx
     - hhvm
-    # - mariadb
+    - mariadb
     # - varnish
     # - wordpress
