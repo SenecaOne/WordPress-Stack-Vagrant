@@ -17,6 +17,7 @@
       - python-software-properties
       - build-essential
       - software-properties-common
+      - sendmail
       - git
       - git-core
       - screen

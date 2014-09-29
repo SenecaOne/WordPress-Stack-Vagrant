@@ -1,16 +1,21 @@
 ---
-  - name: Varnish | Fetch signing key
+  - name: Fetch signing key
     apt_key: url=http://repo.varnish-cache.org/ubuntu/GPG-key.txt state=present
+    tags: varnish
 
-  - name: Varnish | Add Varnish repository
+  - name: Add Varnish repository
     apt_repository: repo="deb http://repo.varnish-cache.org/ubuntu/ trusty varnish-4.0" state=present
+    tags: varnish
 
-  - name: Varnish | Install Varnish package
+  - name: Install Varnish package
     apt: pkg=varnish state=present update_cache=yes
+    tags: varnish
 
-  - name: Varnish | Push default configuration template
+  - name: Push default configuration template
     template: src=varnish dest=/etc/default/varnish owner=root group=root mode=0644
+    tags: varnish
 
-  - name: Varnish | Push WordPress ready VCL
+  - name: Push WordPress ready VCL
     template: src=default.vcl dest=/etc/varnish/default.vcl owner=root group=root mode=0644
     notify: restart varnish
+    tags: varnish

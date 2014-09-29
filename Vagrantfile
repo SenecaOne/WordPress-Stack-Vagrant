@@ -4,18 +4,28 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+WP_HOSTNAME = "wordpress-dev.local"
+PRIVATE_IP = "192.168.31.10"
+BOX_MEMORY = "1024"
+PLAYBOOK = "provisions/site.yml"
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ubuntu/trusty64"
-  # config.vm.provision :shell, :path => "provision.sh", run: "always"
-  config.vm.hostname = "wordpress-dev-box"
+  config.vm.hostname = WP_HOSTNAME
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisions/site.yml"
+    ansible.extra_vars = { wp_hostname: WP_HOSTNAME }
+    ansible.playbook = PLAYBOOK
   end
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -25,7 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.31.10"
+  config.vm.network "private_network", ip: PRIVATE_IP
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -39,10 +49,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   config.vm.provider "virtualbox" do |vb|
     # Set the name of the VM
-    vb.name = "wordpress-box"
+    vb.name = "wordpress-dev-box"
 
     # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", "512"]
+    vb.customize ["modifyvm", :id, "--memory", BOX_MEMORY]
 
     # allow symlinks to be created in the shared folder (ex: node_modules):
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/wordpress", "1"]

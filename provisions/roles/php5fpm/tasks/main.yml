@@ -1,0 +1,12 @@
+---
+  - name: Install PHP5-FPM
+    apt: pkg=php5-fpm state=present update_cache=yes
+    tags: php5fpm
+
+  - name: Install PHP5-FPM-MYSQL
+    apt: pkg=php5-mysql state=present
+    tags: php5fpm
+
+  - name: Install PHP5-CLI
+    apt: pkg=php5-cli state=present
+    tags: php5fpm

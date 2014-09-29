@@ -1,0 +1,4 @@
+---
+  - name: Install Memcached
+    apt: pkg=memcached state=present update_cache=yes
+    tags: memcached

@@ -25,25 +25,66 @@
   template: src=wp-config.php dest=/var/www/wordpress/
   tags: wordpress
 
-# - name: Download WordPress CLI
-#   get_url: url=https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar dest=/usr/local/bin/wp
-#   tags: wordpress
+- name: Download WordPress CLI
+  get_url: url=https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar dest=/usr/local/bin/wp
+  tags: wordpress
 
-# - name: Change permissions of wp-cli
-#   command: chmod +x /usr/local/bin/wp
-#   tags: wordpress
+- name: Change permissions of wp-cli
+  command: chmod +x /usr/local/bin/wp
+  tags: wordpress
 
-# - name: Install W3 Total Cache Plugin
-#   command: wp plugin install w3-total-cache
-#   tags: wordpress
+- name: Change ownership of Wordpress installation
+  file: path=/var/www/wordpress/ owner=vagrant group=vagrant state=directory recurse=yes
+  tags: wordpress
 
-# - name: Install JetPack Plugin
-#   command: wp plugin install jetpack
-#   tags: wordpress
+# - name: WP installed?
+#   command: wp core is-installed --path=/var/www/wordpress
+#   sudo: no
+#   register: wordpress_install
+#   ignore_errors: True
 
-# - name: Install WordPress Importer Plugin
-#   command: wp plugin install wordpress-importer
-#   tags: wordpress
+- name: Install WordPress Tables
+  command: wp core install
+           --url="{{ wp_hostname }}"
+           --title="{{ wp_site_title }}"
+           --admin_user="{{ wp_admin_user }}"
+           --admin_password="{{ wp_admin_password }}"
+           --admin_email="{{ wp_admin_email }}"
+           --path="/var/www/wordpress"
+  sudo: no
+  # when: wordpress_install == True
+  ignore_errors: true
+  tags: wordpress
+
+- name: Set WordPress Permalinks to /%postname%/
+  command: wp rewrite structure '/%postname%/' --"path=/var/www/wordpress"
+  sudo: no
+  ignore_errors: true
+  tags: wordpress
+
+- name: Uninstall Hello-Dolly Plugin
+  command: wp plugin uninstall hello --"path=/var/www/wordpress"
+  sudo: no
+  ignore_errors: true
+  tags: wordpress
+
+- name: Install W3 Total Cache Plugin
+  command: wp plugin install w3-total-cache --activate --"path=/var/www/wordpress"
+  sudo: no
+  ignore_errors: true
+  tags: wordpress
+
+- name: Install JetPack Plugin
+  command: wp plugin install jetpack --"path=/var/www/wordpress"
+  sudo: no
+  ignore_errors: true
+  tags: wordpress
+
+- name: Install WordPress Importer Plugin
+  command: wp plugin install wordpress-importer --"path=/var/www/wordpress"
+  sudo: no
+  ignore_errors: true
+  tags: wordpress
 
 - name: Change ownership of Wordpress installation
   file: path=/var/www/wordpress/ owner=www-data group=www-data state=directory recurse=yes
