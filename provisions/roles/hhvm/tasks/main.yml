@@ -11,8 +11,11 @@
     apt: name=hhvm state=present
     tags: hhvm
 
-  - name: install fast-cgi
+  - name: HHVM | Install fast-cgi
     shell: /usr/share/hhvm/install_fastcgi.sh
+
+  - name: HHVM | Setup HHVM to pretend to be PHP over the command line
+    shell: /usr/bin/update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
 
   - name: HHVM | Start HHVM
     service: name=hhvm state=restarted

@@ -1,30 +1,50 @@
 ---
 - name: Download Wordpress
-  get_url: url=http://wordpress.org/wordpress-{{ wp_version }}.tar.gz dest=/var/www/wordpress-{{ wp_version }}.tar.gz
-           sha256sum="{{ wp_sha256sum }}"
+  get_url: url=http://wordpress.org/wordpress-{{ wp_version }}.tar.gz dest=/var/www/wordpress-{{ wp_version }}.tar.gz sha256sum="{{ wp_sha256sum }}"
+  tags: wordpress
 
 - name: Extract archive
   command: chdir=/var/www/ /bin/tar xvf wordpress-{{ wp_version }}.tar.gz creates=/var/www/wordpress
-
-- name: Add group "wordpress"
-  group: name=wordpress
-
-- name: Add user "wordpress"
-  user: name=wordpress group=wordpress home=/var/www/wordpress/
+  tags: wordpress
 
 - name: Fetch random salts for Wordpress config
   local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
   register: "wp_salt"
   sudo: no
+  tags: wordpress
 
 - name: Create Wordpress database
   mysql_db: name={{ wp_db_name }} state=present
+  tags: wordpress
 
 - name: Create Wordpress database user
   mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='localhost' state=present
+  tags: wordpress
 
 - name: Copy Wordpress config file
   template: src=wp-config.php dest=/var/www/wordpress/
+  tags: wordpress
+
+# - name: Download WordPress CLI
+#   get_url: url=https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar dest=/usr/local/bin/wp
+#   tags: wordpress
+
+# - name: Change permissions of wp-cli
+#   command: chmod +x /usr/local/bin/wp
+#   tags: wordpress
+
+# - name: Install W3 Total Cache Plugin
+#   command: wp plugin install w3-total-cache
+#   tags: wordpress
+
+# - name: Install JetPack Plugin
+#   command: wp plugin install jetpack
+#   tags: wordpress
+
+# - name: Install WordPress Importer Plugin
+#   command: wp plugin install wordpress-importer
+#   tags: wordpress
 
 - name: Change ownership of Wordpress installation
-  file: path=/var/www/wordpress/ owner=wordpress group=wordpress state=directory recurse=yes
+  file: path=/var/www/wordpress/ owner=www-data group=www-data state=directory recurse=yes
+  tags: wordpress
