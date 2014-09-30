@@ -28,6 +28,11 @@ sub vcl_recv {
   if (!(req.url ~ "wp-(login|admin)")) {
     unset req.http.cookie;
   }
+
+  # Allow posts preview
+  if (req.url ~ "preview=true") {
+    return(pass);
+  }
 }
 
 sub vcl_backend_response {

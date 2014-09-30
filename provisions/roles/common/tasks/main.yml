@@ -17,6 +17,12 @@
       - python-software-properties
       - build-essential
       - software-properties-common
+      - dpkg-dev
+      - zlib1g-dev
+      - libpcre3
+      - libpcre3-dev
+      - openssl
+      - libssl-dev
       - sendmail
       - git
       - git-core

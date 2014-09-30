@@ -5,6 +5,10 @@ Vagrant WordPress stack running on Ubuntu 14.04, NGINX, PHP-FPM, MariaDB, and Va
 
 Utilizing Ansible for Provisioning.
 
+PHP 5.5 optimized with Opcache
+
+Includes Varnish HTTP Purge (activated), WordPress Importer (not activated), and Jetpack (not activated) wordpress plugins installed by default.
+
 
 Requires
 =======================

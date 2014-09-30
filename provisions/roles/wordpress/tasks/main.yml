@@ -68,10 +68,20 @@
   ignore_errors: true
   tags: wordpress
 
-- name: Install W3 Total Cache Plugin
-  command: wp plugin install w3-total-cache --activate --"path=/var/www/wordpress"
+- name: Install Varnish HTTP Purge Plugin
+  command: wp plugin install varnish-http-purge --activate --"path=/var/www/wordpress"
   sudo: no
   ignore_errors: true
+  tags: wordpress
+
+- name: Install Memcached Redux Plugin
+  command: wp plugin install memcached-redux --"path=/var/www/wordpress"
+  sudo: no
+  ignore_errors: true
+  tags: wordpress
+
+- name: Copy object-cache.php to wp-content (Memcached Redux)
+  command: cp /var/www/wordpress/wp-content/plugins/memcached-redux/object-cache.php /var/www/wordpress/wp-content/object-cache.php
   tags: wordpress
 
 - name: Install JetPack Plugin
