@@ -7,6 +7,8 @@ Utilizing Ansible for Provisioning.
 
 PHP 5.5 optimized with Opcache
 
+NGINX built from source to include Google PageSpeed module.
+
 Includes Varnish HTTP Purge (activated), WordPress Importer (not activated), and Jetpack (not activated) wordpress plugins installed by default.
 
 
