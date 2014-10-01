@@ -24,15 +24,16 @@ sub vcl_recv {
   # Typically you clean up the request here, removing cookies you don't need,
   # rewriting the request, etc.
 
-  # Drop any cookies sent to WordPress.
-  if (!(req.url ~ "wp-(login|admin)")) {
-    unset req.http.cookie;
-  }
-
   # Allow posts preview
   if (req.url ~ "preview=true") {
     return(pass);
   }
+
+  # Drop any cookies sent to WordPress.
+  if (!(req.url ~ "wp-(login|admin)")) {
+    unset req.http.cookie;
+  }
+  
 }
 
 sub vcl_backend_response {
