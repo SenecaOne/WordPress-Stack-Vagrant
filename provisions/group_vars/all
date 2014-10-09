@@ -2,6 +2,8 @@
 nginx_source_version: 1.7.6
 nginx_pagespeed_version: 1.9.32.1
 
+max_upload_size: 64M
+
 # Which version of Wordpress to deploy
 wp_version: 4.0
 wp_sha256sum: 03a8437ca9ae14c9a7f6d4062672e9685d45e1aaad6c020af2673cb42a34c0ac
